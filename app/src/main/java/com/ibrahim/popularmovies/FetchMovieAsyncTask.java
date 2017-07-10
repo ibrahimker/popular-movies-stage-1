@@ -17,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Magnus Ringkjøb
+ * Created by Ibrahimker
  * <p/>
  * Background loading of data from the Internet.
  */
@@ -165,12 +165,16 @@ class FetchMovieAsyncTask extends AsyncTask<String, Void, Movie[]> {
      * @throws MalformedURLException
      */
     private URL getApiUrl(String[] parameters) throws MalformedURLException {
-        final String TMDB_BASE_URL = "https://api.themoviedb.org/3/discover/movie?";
-        final String SORT_BY_PARAM = "sort_by";
+        String TMDB_BASE_URL = "";
+        if(parameters[0].equalsIgnoreCase("popularity.desc")){
+            TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
+        }
+        else{
+            TMDB_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated";
+        }
         final String API_KEY_PARAM = "api_key";
 
         Uri builtUri = Uri.parse(TMDB_BASE_URL).buildUpon()
-                .appendQueryParameter(SORT_BY_PARAM, parameters[0])
                 .appendQueryParameter(API_KEY_PARAM, mApiKey)
                 .build();
 
